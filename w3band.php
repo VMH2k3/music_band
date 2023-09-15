@@ -9,10 +9,13 @@
     <!-- hình ảnh icon ở tên trang -->
     <link rel="icon" href="./image/avatar.jpg" type="image/x-icon" />
     <link rel="stylesheet" href="./fonts/themify-icons/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="./messages-css.css">
 </head>
 
 
 <body>
+    <div id="toast"></div>
+    <title>messages</title>
     <div class="main">
         <div id="header">
             <ul class="nav">
@@ -172,29 +175,174 @@
             <div class="modal-body">
                 <!-- FOR trong label giúp khi kick vô label 
 			giúp khi người dùng nhấn vô label thì trang sẽ dẫn người dùng đến input!-->
-                <label for="number" class="modal-label">
-                    <i class="modal-icon ti-shopping-cart"></i>
-                    Tickets, $15 per person
-                </label>
-                <input id="number" type="number" class="modal-input" placeholder="How many?">
+
+                <form action="" method="post">
+                    <label for="number" class="modal-label">
+                        <i class="modal-icon ti-shopping-cart"></i>
+                        Tickets, $15 per person
+                    </label>
+
+                    <input name="number" id="number" type="number" class="modal-input" placeholder="How many?">
 
 
-                <label for="email" class="modal-label">
-                    <i class="modal-icon ti-user"></i>
-                    Send To
-                </label>
-                <input id="email" type="email" class="modal-input" placeholder="Enter email">
-                <botton class="buy-tickets">
-                    Pay
-                    <i class="ti-check"></i>
-                </botton>
+                    <label for="email" class="modal-label">
+                        <i class="modal-icon ti-user"></i>
+                        Send To
+                    </label>
+                    <input name="email" id="email" type="email" class="modal-input" placeholder="Enter email">
+
+
+                    <botton class="buy-tickets" onclick="hideBuytickets(); showSuccessToast();">
+                        Pay
+                        <i class="ti-check"></i>
+                    </botton>
+                </form>
             </div>
             <footer class="modal-footer">
                 <p class="modal-help">Need <a href="#" class="modal-help">help?</a></p>
             </footer>
         </div>
     </div>
-<script src="./w3band.js"></script>
+    <script>
+    const buyBtns = document.querySelectorAll('.js-buy-tickets')
+    const modal = document.querySelector('.js-modal')
+    const modalContainer = document.querySelector('.js-modal-container')
+    const modalClose = document.querySelector('.js-modal-close')
+
+    function success() {
+        alert('Congratulations, your payment was successful!');
+    }
+    //Hàm hiển thị form modal mua vé (nguyên lí là thêm class open modal)
+    function showBuytickets() {
+        modal.classList.add('open')
+    }
+    //Hàm ẩn form modal mua vé(ẩn class open modal)
+    function hideBuytickets() {
+        modal.classList.remove('open')
+    }
+    //nghe hành vi click 
+    modalClose.addEventListener('click', hideBuytickets)
+    for (const buyBtn of buyBtns) {
+        buyBtn.addEventListener('click', showBuytickets)
+    }
+    modal.addEventListener('click', hideBuytickets)
+    modalContainer.addEventListener('click', function(event) {
+        event.stopPropagation()
+    })
+    //Đóng/mở tab menu
+    var mobileMenu = document.getElementById('menu-icon-btn');
+    var header = document.getElementById('header');
+    mobileMenu.onclick = function() {
+        var isClosed = header.clientHeight === 46;
+        if (isClosed) {
+            header.style.height = 'auto';
+        } else {
+            header.style.height = '46px';
+        }
+    }
+    // Tự động ẩn tab menu khi lựa chọn
+    var menuItems = document.querySelectorAll('.nav li a[href*="#"]');
+    for (var i = 0; i < menuItems.length; i++) {
+        var menuItem = menuItems[i];
+
+        menuItem.onclick = function(event) {
+            var MoreMenu = this.nextElementSibling && this.nextElementSibling.classList.contains('subnav');
+            if (!MoreMenu) {
+                header.style.height = '46px';
+            } else {
+                event.preventDefault();
+            }
+        }
+    }
+
+    function showWarningToast() {
+        toast({
+            title: "Cảnh báo!",
+            message: "Cảnh báo có sẽ có rủi ro khi bạn vẫn muốn đăng ki tài khoản.",
+            type: "warning",
+            duration: 5000
+        }); //object
+    }
+
+    function showSuccessToast() {
+        toast({
+            title: "Thành công!",
+            message: "Bạn đã đăng ký thành công tài khoản tại F8.",
+            type: "success",
+            duration: 5000
+        }); //object
+    }
+
+    function showInfoToast() {
+        toast({
+            title: "Thành công!",
+            message: "Bạn đã đăng ký thành công tài khoản tại F8.",
+            type: "info",
+            duration: 5000
+        }); //object
+    }
+
+    function showErrorToast() {
+        toast({
+            title: "Thất bại!",
+            message: "Có lỗi xảy ra, vui lòng liên hệ quản trị viên.",
+            type: "error",
+            duration: 5000
+        });
+    }
+    // Toast function
+    function toast({
+        title = "",
+        message = "",
+        type = "info",
+        duration = 3000
+    }) {
+        const main = document.getElementById("toast");
+        if (main) {
+            const toast = document.createElement("div");
+
+            // Auto remove toast
+            const autoRemoveId = setTimeout(function() {
+                main.removeChild(toast);
+            }, duration + 1000);
+
+            // Remove toast when clicked
+            toast.onclick = function(e) {
+                if (e.target.closest(".toast__close")) {
+                    main.removeChild(toast);
+                    clearTimeout(autoRemoveId);
+                }
+            };
+
+            const icons = {
+                success: "fas fa-check-circle",
+                info: "fas fa-info-circle",
+                warning: "fas fa-exclamation-circle",
+                error: "fas fa-exclamation-circle"
+            };
+            const icon = icons[type];
+            const delay = (duration / 1000).toFixed(2);
+
+            toast.classList.add("toast", `toast--${type}`);
+            toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;
+
+            toast.innerHTML = `
+                    <div class="toast__icon">
+                        <i class="${icon}"></i>
+                    </div>
+                    <div class="toast__body">
+                        <h3 class="toast__title">${title}</h3>
+                        <p class="toast__msg">${message}</p>
+                    </div>
+                    <div class="toast__close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                `;
+            main.appendChild(toast);
+        }
+    }
+    </script>
+
 </body>
 
 </html>
