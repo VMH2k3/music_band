@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="band.css">
     <title>Hinas_band</title>
     <!-- hình ảnh icon ở tên trang -->
     <link rel="icon" href="./image/avatar.jpg" type="image/x-icon" />
@@ -56,15 +56,18 @@
                 <div class="member-list">
                     <div class="member-item">
                         <p class="member-name">Doraemon</p>
-                        <img src="./image/avatar.jpg" alt="Name" class="member-img">
+                        <a href="https://vi.wikipedia.org/wiki/Doraemon"><img src="./image/avatar.jpg" alt="Name"
+                                class="member-img"></a>
                     </div>
                     <div class="member-item">
                         <p class="member-name">Nobita</p>
-                        <img src="./image/nobita.jfif" alt="Name" class="member-img">
+                        <a href="https://vi.wikipedia.org/wiki/Nobi_Nobita"> <img src="./image/nobita.jfif" alt="Name"
+                                class="member-img"></a>
                     </div>
                     <div class="member-item">
                         <p class="member-name">Shizuka</p>
-                        <img src="./image/shizuka.jfif" alt="Name" class="member-img">
+                        <a href="https://vi.wikipedia.org/wiki/Minamoto_Shizuka"> <img src="./image/shizuka.jfif"
+                                alt="Name" class="member-img"></a>
                     </div>
                 </div>
             </div>
@@ -80,8 +83,8 @@
                         <li>November <span class="quanlity">3</span></li>
                     </ul>
                     <!-- Places -->
-                    <div class="places-list ">
-                        <div class="places-item ">
+                    <div class="places-list  ">
+                        <div class="places-item js-buy-tickets">
                             <img src="./image/tickets-1.jpg" alt="Tokyo" class="places-img">
                             <div class="places-content">
                                 <h3 class="places-heading ">Tokyo</h3>
@@ -90,7 +93,7 @@
                                 <button class="places-buy-btn js-buy-tickets mobile-col-full ">Buy Tickets</button>
                             </div>
                         </div>
-                        <div class="places-item">
+                        <div class="places-item js-buy-tickets">
                             <img src="./image/osaka.jfif" alt="Tokyo" class="places-img">
                             <div class="places-content">
                                 <h3 class="places-heading">Osaka</h3>
@@ -100,7 +103,7 @@
                             </div>
 
                         </div>
-                        <div class="places-item">
+                        <div class="places-item js-buy-tickets">
                             <img src="./image/kyoto.jfif" alt="Tokyo" class="places-img">
                             <div class="places-content">
                                 <h3 class="places-heading">Kyoto</h3>
@@ -173,7 +176,8 @@
                     <i class="modal-icon ti-shopping-cart"></i>
                     Tickets, $15 per person
                 </label>
-                <input id="number" type="text" class="modal-input" placeholder="How many?">
+                <input id="number" type="number" class="modal-input" placeholder="How many?">
+
 
                 <label for="email" class="modal-label">
                     <i class="modal-icon ti-user"></i>
@@ -190,54 +194,7 @@
             </footer>
         </div>
     </div>
-    <script>
-        const buyBtns = document.querySelectorAll('.js-buy-tickets')
-        const modal = document.querySelector('.js-modal')
-        const modalContainer = document.querySelector('.js-modal-container')
-        const modalClose = document.querySelector('.js-modal-close')
-        //Hàm hiển thị form modal mua vé (nguyên lí là thêm class open modal)
-        function showBuytickets() {
-            modal.classList.add('open')
-        }
-        //Hàm ẩn form modal mua vé(ẩn class open modal)
-        function hideBuytickets() {
-            modal.classList.remove('open')
-        }
-        //nghe hành vi click 
-        modalClose.addEventListener('click', hideBuytickets)
-        for (const buyBtn of buyBtns) {
-            buyBtn.addEventListener('click', showBuytickets)
-        }
-        modal.addEventListener('click', hideBuytickets)
-        modalContainer.addEventListener('click', function (event) {
-            event.stopPropagation()
-        })
-        //Đóng/mở tab menu
-        var mobileMenu = document.getElementById('menu-icon-btn');
-        var header = document.getElementById('header');
-        mobileMenu.onclick = function () {
-            var isClosed = header.clientHeight === 46;
-            if (isClosed) {
-                header.style.height = 'auto';
-            } else {
-                header.style.height = '46px';
-            }
-        }
-        // Tự động ẩn tab menu khi lựa chọn
-        var menuItems = document.querySelectorAll('.nav li a[href*="#"]');
-        for (var i = 0; i < menuItems.length; i++) {
-            var menuItem = menuItems[i];
-
-            menuItem.onclick = function (event) {
-                var MoreMenu = this.nextElementSibling && this.nextElementSibling.classList.contains('subnav');
-                if (!MoreMenu) {
-                    header.style.height = '46px';
-                } else {
-                    event.preventDefault();
-                }
-            }
-        }
-    </script>
+<script src="./w3band.js"></script>
 </body>
 
 </html>

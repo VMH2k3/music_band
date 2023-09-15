@@ -389,8 +389,7 @@ Vd:class="section text-white" */
 }
 
 .modal-close-icon:hover {
-	background-color: #ccc;
-	color: #000;
+	background-color: #f00;
 }
 
 .modal-label {
